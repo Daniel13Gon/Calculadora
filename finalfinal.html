@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>CALCULADORA ALGEBRÁICA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">    <!--Bootstrap es una herramienta de tipo CSS que nos ayuda a darle el estilo que tiene la interfaz-->
+    <script src="jquery-3.5.1.js"></script>                                                                 <!--Jquery es una API basada en Javascript que utilizamos para darle interactividad al sitio. Esto se ve en el momento-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>       <!--en el que al seleccionar una opción del menú desplegable se ocultan y muestran elementos simultaneamente.-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+                                                                                                            <!--los comandos "text-align" y "padding" tienen como función dar estilo a los elementos de clase -->
+                                                                                                            <!--resultados y jumbotron. Text-align lo ubica en el centro de la página y padding da una margen de 16 pixeles -->
+    <style media="screen">
+        .resultados
+        {
+            text-align: center;
+        }
+        .jumbotron
+        {
+            padding: 16px;
+        }
+    </style>
+  </head>
+  <body>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/mathjs/3.10.0/math.min.js"></script>                 <!--Las siguientes 3 líneas de código están dirigidas a obtener las herramientas necesarias para que funcione la gráfica adecuadamente.-->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    <script src="https://wzrd.in/standalone/function-plot@1.14.0"></script>
+    <div class="jumbotron text-center">                                                                     <!--Aquí se genera la división en página de clase jumbotron-->
+        <h1 style="border:2px solid Black;">CALCULADORA ALGEBRAICA</h1>
+        <p style="text-align:center;">Proyecto por: Daniel González y Juan Rodríguez</p>
+        <hr>
+    <p >Hola, selecciona la operación que requieras y posteriormente llena los datos necesarios.</p>
+    <p>
+      <select id="opciones">                                                                                <!--Los elementos con la etiqueta <option> son los que generan el menú desplegable-->
+        <option>Selecciona la operación a trabajar...</option>
+        <option>Identificar si un numero es primo o no.</option>
+        <option>Graficar funciones.</option>
+        <option>Hallar raíces de un polinomio.</option>
+        <option>Sumar números.</option>
+        <option>Multiplicar numeros.</option>
+        <option>Dividir numeros.</option>
+        <option>Hallar MCD entre dos numeros.</option>
+        <option>Hallar mcm entre dos numeros.</option>
+      </select>
+    </p>
+    <div class="container">                                                                                 <!--La clase container se escribe para representar que esta división en página contendrá información-->
+      <div class="col-md-6">                                                                                <!--como su nombre lo indica.-->
+        <form class="myForm">
+        <p class="parrafos">
+        <label for="numero1">Primer numero a sumar</label>
+        <input type="text" name="primer_numero" id="numerito1">                                             <!--la etiqueta <input type="text"> sirve para pedir datos al usuario vía teclado.-->
+        <br>                                                                                                <!--La etiqueta <br> represanta un salto de línea.-->
+        <label for="numero2">Segundo  numero a sumar</label>
+        <input type="text" name="segundo_numero" id="numerito2">
+        <br>
+        <input type="button" name="enviar1" value="Enviar números" id="sumatoriacifras">                    <!--La etiqueta <input type="button"> genera un botón en pantalla-->
+        <em><p id="respuestaSuma" class="resultados"></p></em>
+    </p>
+    </form>
+    <form class="myForm2">
+        <p class="text-sm-right">
+      <label for="coeficiente1">Ingresa el primer coeficiente</label>
+      <input type="text" name="primer_coeficiente" id="coeficiente_numero1">
+      <br>
+      <label for="coeficiente2">Ingresa el segundo coeficiente</label>
+      <input type="text" name="segundo_coeficiente" id="coeficiente_numero2">
+      <br>
+      <label for="coeficiente3">Ingresa el tercer coeficiente</label>
+      <input type="text" name="tercer_coeficiente" id="coeficiente_numero3">
+      <br>
+      <input type="button" id="cuadraticaCifras" value="Enviar coeficientes">
+      <em><p id="respuestacuadratica" class="resultados"></p></em>
+    </p>
+  </form>
+  <form class= "myForm3" id="form">
+    <p class="parrafos">
+        <label for="eq">Ingresa la ecuación:</label>
+        <input type="text" id="eq"/>
+        <input type="submit" value="Graficar" />
+        <br>
+    </p>
+  </form>
+    <form class="myForm1">
+    <p class="parrafos">
+      <label>Ingresa el número</label>
+      <input type="text" id="NumeroPrimo">
+      <input type="button" id='primoCifras' value="Enviar número">
+      <p id="respuestaPrimo" class = "resultados"></p>
+      <br>
+    </p>
+  </form>
+  <form class="myForm4">
+    <p class="text-sm-right">
+      <label for="numero1por">1er numero a multiplicar</label>
+      <input type="text" name="primer_numeropor" id="numerito1por">
+        <br>
+      <label for="numero2por">2do  numero a multiplicar</label>
+      <input type="text" name="segundo_numeropor" id="numerito2por">
+        <br>
+      <label for="numero3por">3er numero a multiplicar</label>
+      <input type="text" name="tercer_numeropor" value="1" title="Por defecto es 1 para evitar errores en caso de que no lo necesites" id="numerito3por"> <!--La etiqueta <title> genera un texto de ayuda al poner el cursor sobre el elemento <input>-->
+        <br>
+      <label for="numero4por">4to numero a multiplicar</label>
+      <input type="text" name="cuarto_numeropor" value="1" title="Por defecto es 1 para evitar errores en caso de que no lo necesites" id="numerito4por">
+        <br>
+      <input type="button" id="productoCifras" value="Enviar factores">
+      <p id='respuestaMultiplicacion' class = "resultados"></p>
+        <br>
+    </p>
+  </form>
+  <form class="myForm5">
+    <p class="text-sm-right">
+        <label for="numerador">Escribe el dividendo</label>
+        <input type="text" name="dividendo" id="dividendo">
+            <br>
+        <label for="denominador">Escribe el divisor</label>
+        <input type="text" name="divisor" id="divisor">
+            <br>
+        <input type="button" id="cocienteCifras" value="Enviar números">
+        <p id='respuestaDivision' class="resultados"></p>
+            <br>
+    </p>
+  </form>
+  <form class="myForm6">
+    <p class="parrafos">
+        <label for="mcd1">Escribe el primer término: </label>
+        <input type="text" name="mcd1" id="maxcd1">
+            <br>
+        <label for="mcd2">Escribe el segundo término: </label>
+        <input type="text" name="mcd2" id="maxcd2">
+            <br>
+        <input type="button" id="mcdCifras" value="Enviar valores">
+        <p id="respuestaMCD" class="resultados"></p>
+            <br>
+    </p>
+  </form>
+  <form class="myForm7">
+    <p class="parrafos">
+        <label for="mcm1">Escribe el primer término: </label>
+        <input type="text" name="mcm1" id="mincm1">
+            <br>
+        <label for="mcm1">Escribe el segundo término: </label>
+        <input type="text" name="mcm2" id="mincm2">
+            <br>
+        <input type="button" id="mcmCifras" value="Enviar valores">
+        <p id="respuestaMcm" class="resultados"></p>
+            <br>
+    </p>
+  </form>
+  </div>
+  <div id="plot"></div>
+
+  <p>
+    Plot library: <a href="https://github.com/maurizzzio/function-plot">https://github.com/maurizzzio/function-plot</a> <!--Link a la herramienta que nos permite graficar funciones.-->
+  </p>
+  <script>
+  $(".myForm").hide();                                                                                                  //el método .hide es propio de Jquery y permite ocultar los elementos que estan dentro de la clase "myform"-->
+  $(".myForm2").hide();
+  $(".myForm1").hide();
+  $(".myForm3").hide();
+  $(".myForm4").hide();
+  $(".myForm5").hide();
+  $(".myForm6").hide();
+  $(".myForm7").hide();
+  </script>
+  <script>
+  document.getElementById("opciones").addEventListener("change", function Aparecer(a)
+    {
+      if (a.target.value === "Hallar raíces de un polinomio.")
+      {
+        $(".myForm2").show();
+        $(".myForm").hide();
+        $(".myForm3").hide();
+        $(".myForm1").hide();
+        $(".myForm4").hide();
+        $(".myForm5").hide();
+        $(".myForm6").hide();
+        $(".myForm7").hide();
+      }
+      else if (a.target.value === "Sumar números.")
+      {
+        $(".myForm").show();
+        $(".myForm2").hide();
+        $(".myForm3").hide();
+        $(".myForm1").hide();
+        $(".myForm4").hide();
+        $(".myForm5").hide();
+        $(".myForm6").hide();
+        $(".myForm7").hide();
+      }
+      else if (a.target.value === "Graficar funciones.")
+      {
+        $(".myForm3").show();
+        $(".myForm").hide();
+        $(".myForm2").hide();
+        $(".myform4").hide();
+        $(".myForm1").hide();
+        $(".myForm5").hide();
+        $(".myForm6").hide();
+        $(".myForm7").hide();
+      }
+      else if (a.target.value === "Identificar si un numero es primo o no.")
+      {
+        $(".myForm1").show();
+        $(".myForm").hide();
+        $(".myForm2").hide();
+        $(".myForm3").hide();
+        $(".myForm4").hide();
+        $(".myForm5").hide();
+        $(".myForm6").hide();
+        $(".myForm7").hide();
+      }
+      else if (a.target.value === "Multiplicar numeros.")
+      {
+        $(".myForm4").show();
+        $(".myForm").hide();
+        $(".myForm1").hide();
+        $(".myForm2").hide();
+        $(".myForm3").hide();
+        $(".myForm5").hide();
+        $(".myForm6").hide();
+        $(".myForm7").hide();
+      }
+      else if (a.target.value === "Dividir numeros.")
+      {
+          $(".myForm5").show();
+          $(".myForm").hide();
+          $(".myForm1").hide();
+          $(".myForm2").hide();
+          $(".myForm3").hide();
+          $(".myForm4").hide();
+          $(".myForm6").hide();
+          $(".myForm7").hide();
+      }
+      else if (a.target.value === "Hallar MCD entre dos numeros.")
+      {
+          $(".myForm5").hide();
+          $(".myForm").hide();
+          $(".myForm1").hide();
+          $(".myForm2").hide();
+          $(".myForm3").hide();
+          $(".myForm4").hide();
+          $(".myForm6").show();
+          $(".myForm7").hide();
+      }
+     else if (a.target.value === "Hallar mcm entre dos numeros.")
+      {
+          $(".myForm7").show();
+          $(".myForm").hide();
+          $(".myForm1").hide();
+          $(".myForm2").hide();
+          $(".myForm3").hide();
+          $(".myForm4").hide();
+          $(".myForm5").hide();
+          $(".myForm6").hide();
+      }
+    });
+  </script>
+<script src="javascriptfinalfinal.js"></script>                                                 <!--Tomamos como recurso el archivo javascript en donde definimos las funciones utilizadas en el programa-->
+<hr>
+<div class="jumbotron text-center" style="margin-bottom:0 ">
+  <p>Universidad Nacional de Colombia</p>
+</div>
+  </body>
+</html>
